@@ -26,6 +26,7 @@ option", nor developer is guarded against opt-letter reuse. Caveat Emptor!
 package mopt
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 )
@@ -132,7 +133,8 @@ args:
 			ok = true
 			break args
 		case s[0] == '-' && s[1] == 'h':
-			println(os.Args[0], HelpLead, u)
+			// println(os.Args[0], HelpLead, u)
+			fmt.Fprintln(os.Stderr, os.Args[0], HelpLead, u)
 			Exit(0)
 		case s[0] == '-' && s[1] == '-':
 			break args
