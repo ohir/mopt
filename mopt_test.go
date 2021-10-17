@@ -120,23 +120,15 @@ func TestFloat(t *testing.T) {
 }
 
 func TestHelp(t *testing.T) {
-	osso := os.Stderr
-	if nulo, err := os.OpenFile(os.DevNull, os.O_WRONLY, 0); err != nil {
-		t.Logf("Skipping! Can not open the big bucket of /dev/null because %s", err.Error())
-		t.SkipNow()
-	} else {
-		os.Stderr = nulo
-		os.Args = []string{"test", "-h", "subtopic"}
-		if s := get.OptS('h', "bad"); s != "subtopic" {
-			t.Logf("No -h subtopic retrieved. Bad! >%s<", s)
-			t.Fail()
-		}
-		get.OptB('x') // none -x but -h is there
-		if exited != 0 {
-			t.Logf("The -h option did not called to Exit. Bad!")
-			t.Fail()
-		}
-		os.Stderr = osso
+	os.Args = []string{"test", "-h", "subtopic"}
+	if s := get.OptS('h', "bad"); s != "subtopic" {
+		t.Logf("No -h subtopic retrieved. Bad! >%s<", s)
+		t.Fail()
+	}
+	get.OptB('x') // none -x but -h is there
+	if exited != 0 {
+		t.Logf("The -h option did not called to Exit. Bad!")
+		t.Fail()
 	}
 }
 

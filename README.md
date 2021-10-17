@@ -15,9 +15,9 @@ Eg. declare "get" as `var get mopt.Usage = "\t-v verbose\n ..."` then use its fi
 
 Spaces between flag letter and value are unimportant: ie. `-a bc`, and `-abc` are equivalent.  Same for numbers: `-n-3` and `-n -3` both provide _-3_ number. _For this elasticity a leading dash of string value, if needed, must be given after a backslash: eg. `-s\-dashed` or `-s "\- started with a dash"`. Flag grouping is not supported, too. Ie. `-a -b -c` are three boolean flags, but `-abc` would be an `-a` flag introducing a string value of "bc"_.
 
-Flag `-h` is predefined to print a short "__ProgName__ _purpose, usage & options:_\n" lead, then content of the mopt.Usage variable; then program exits.
+Flag `-h` is predefined to print a short "__ProgName__ _purpose, usage & options:_\n" lead, then content of the mopt.Usage variable; then program exits. Lead is kept in a package variable, so it can be changed to eg. translated version.
 
-Automatic exit behaviour can be overriden simply by asking about a help topic early on: eg.
+Automatic help behaviour can be extended simply by asking about a help topic early on: eg.
 ``` go
 var get mopt.Usage = "\t-v verbose\n ..."
 func main(){
