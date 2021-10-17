@@ -47,7 +47,7 @@ Mopt package is meant to be used in the PoC code and ad-hoc cli tools. It parses
   * [func (u Usage) OptL() (r []string)](#Usage.OptL)
 
 
-## <a name="Usage">type</a> [Usage](/src/target/mopt.go?s=2045:2061#L45)
+### <a name="Usage">type</a> [Usage](/src/target/mopt.go?s=2045:2061#L45)
 ``` go
 type Usage string
 ```
