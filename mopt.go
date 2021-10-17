@@ -2,15 +2,15 @@
 
 /* Package mopt provides getopt style options parsing in 90 lines of Go.
 
-Usage API consist of five OptX methods, with 'X' being of 'B'ool, 'S'tring,
+Its API consist of five OptX methods, with 'X' being of 'B'ool, 'S'tring,
 'F'loat, 'N'umber (int), and finally 'L'ist - that returns list (slice) of
 arguments after the last option (or after terminating --).
 
-Declaration `var cl Usage = "usage/help"` is the only chore. Then you just
-call one of cl.OptX(flag, default) methods where needed. If flag was given
-you will get its value. If it was not - you have the default.
+Declaration `var cl mopt.Usage = "usage/help"` is the only chore. Then you
+just call one of cl.OptX(flag, default) methods where needed. If flag was
+given you will get its value. If it was not - you have the default.
 
-Usage parses oldschool single letter options, and option "-h" is predefined
+Mopt parses oldschool single letter options, and option "-h" is predefined
 to print var Usage content (ie. "usage/help" string). Spaces between flag
 letter and value are unimportant: ie. -a bc, and -abc are equivalent.
 Same for numbers: -n-3 and -n -3 both provide -3 number.
@@ -19,7 +19,7 @@ with a backslash: eg. -s\-dashed or -s "\- started with a dash"; and flag
 grouping is not supported, too. Ie. -a -b -c are three boolean flags, but
 -abc would be an -a option introducing a string value of "bc".
 
-Usage is meant to be used in the PoC code and ad-hoc cli tools. It parses
+Mopt is meant to be used in the PoC code and ad-hoc cli tools. It parses
 whole os.Args anew on each OptX call. There is no user feedback of "unknown
 option", nor developer is guarded against opt-letter reuse. Caveat Emptor!
 */
@@ -30,10 +30,10 @@ import (
 	"strconv"
 )
 
-/* Usage is M(inimalistic) options type - to be filled with the message
-to be printed as "help/usage" after the "prog - purpose, usage & options:\n"
-predefined lead, if user gave the '-h' option.  After printing Usage content
-program terminates returning zero.
+/* Usage is the API holder type - to be filled with the message to be
+printed as "help/usage" after the "prog - purpose, usage & options:\n"
+predefined lead, if user gave the '-h' option.  After printing Usage
+content program terminates returning zero.
 
 Expanding help:
 The -h flag and subsequent string can be retrieved early in a program without
