@@ -62,7 +62,7 @@ func (u Usage) OptS(flag rune, def string) string {
 }
 
 // Method OptN returns int read from string that follows the flag.
-// If flag was not given, or it could not be parsed to the int, OptN
+// If flag was not given, or it could not be parsed to an int, OptN
 // returns the def value. Negative values need no special attention:
 // -a-2 and -a -2 both resolve to -2.
 func (u Usage) OptN(flag rune, def int) (r int) {
@@ -92,14 +92,14 @@ func (u Usage) OptF(flag rune, def float64) (r float64) {
 }
 
 // Method OptB returns true if flag was given, otherwise it returns false.
-// It can't take a default: flag either is present, or not.
+// It need not to take a default: flag either is present, or not.
 func (u Usage) OptB(flag rune) (r bool) {
 	_, r = u.optss(flag)
 	return
 }
 
-// Method OptL returns a slice of strings filled with commandline arguments
-// after the last option, or arguments after the terminating -- if given;
+// Method OptL returns a slice of commandline arguments after the last
+// option, or arguments after the terminating -- dashes, if given;
 // or all arguments, if no dash-letter was spotted.
 func (u Usage) OptL() (r []string) {
 	r = os.Args[1:]
@@ -132,7 +132,7 @@ args:
 			ok = true
 			break args
 		case s[0] == '-' && s[1] == 'h':
-			println(os.Args[0], "purpose, usage & options:\n", u, GenUsage)
+			println(os.Args[0], HelpLead, u)
 			Exit(0)
 		case s[0] == '-' && s[1] == '-':
 			break args
@@ -148,8 +148,8 @@ args:
 	return "", ok
 }
 
-// Assign usage exit with own -h procedure, if in need
+// Exit(0) can be hijacked here
 var Exit func(int) = os.Exit
 
-// Help generator may simply assign to mopt.GenUsage
-var GenUsage string = ""
+// Mopt can also say "propósito, uso y opciones:\n"
+var HelpLead string = "purpose, usage & options:\n"
