@@ -38,21 +38,13 @@ func main(){
 
 Mopt package is meant to be used in the PoC code and ad-hoc cli tools. It parses os.Args anew on every OptX call. There is no user feedback of _"unknown/wrong option"_, nor developer is guarded against opt-letter reuse. _Caveat emptor!_
 
-----
-## <a name="pkg-index">Index</a>
+## <a name="pkg-index">Usage</a>
 * [type Usage](#Usage)
   * [func (u Usage) OptB(flag rune) bool](#Usage.OptB)
   * [func (u Usage) OptF(flag rune, def float64) float64](#Usage.OptF)
   * [func (u Usage) OptN(flag rune, def int) int](#Usage.OptN)
   * [func (u Usage) OptS(flag rune, def string) string](#Usage.OptS)
   * [func (u Usage) OptL() (r []string)](#Usage.OptL)
-
-
-## NLS variable
-``` go
-var HelpLead string = "purpose, usage & options:\n"
-```
-Allows `-h` to say "propósito, uso y opciones:", or "目的、使用法、オプション"
 
 
 ## <a name="Usage">type</a> [Usage](/src/target/mopt.go?s=2045:2061#L45)
@@ -93,7 +85,13 @@ func (u Usage) OptS(flag rune, def string) string
 ```
 Method OptS returns following string. If flag was not given, OptS returns the def value. If string after option needs to begin with dash character, it must be escaped: eg. `-s"\-begins with a dash"`.
 
-## Exit variable
+### NLS variable
+``` go
+var HelpLead string = "purpose, usage & options:\n"
+```
+Allows `-h` to say "propósito, uso y opciones:", or "目的、使用法、オプション"
+
+### Exit variable
 ``` go
 var Exit func(int) = os.Exit
 ```
