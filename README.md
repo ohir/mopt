@@ -3,6 +3,7 @@
 `import "github.com/ohir/mopt"`
 
 Package mopt provides command arguments parsing in 90 lines of Go.
+
 It is ready to use right after declaring a single `mopt.Usage` type variable, optionally containing _usage_ text to be printed with an '-h' flag.
 
 Eg. declare "get" as `var get mopt.Usage = "\t-v verbose\n ..."` then use its five
@@ -15,7 +16,7 @@ Eg. declare "get" as `var get mopt.Usage = "\t-v verbose\n ..."` then use its fi
 
 Spaces between flag letter and value are unimportant: ie. `-a bc`, and `-abc` are equivalent.  Same for numbers: `-n-3` and `-n -3` both provide _-3_ number. _For this elasticity a leading dash of string value, if needed, must be given after a backslash: eg. `-s\-dashed` or `-s "\- started with a dash"`. Flag grouping is not supported, too. Ie. `-a -b -c` are three boolean flags, but `-abc` would be an `-a` flag introducing a string value of "bc"_.
 
-Flag `-h` is predefined to print a short "__ProgName__ _purpose, usage & options:_\n" lead, then content of the mopt.Usage variable; then program exits. Lead is kept in a package variable, so it can be changed to eg. translated version.
+Flag `-h` is predefined to print a short "__ProgName__ _purpose, usage & options:_\n" lead, then content of the mopt.Usage variable; then program exits. Lead is kept in a package variable, so it can be changed from the user's code.
 
 Automatic help behaviour can be extended simply by asking about a help topic early on: eg.
 ``` go
@@ -29,7 +30,7 @@ func main(){
       default:
         println("No help about", htopic, "avaliable!")
     }
-    os.Exit(0) // exit after printing details
+    os.Exit(0) // exit after
   }
 //...
 }
@@ -71,7 +72,7 @@ Method OptF returns float64 read as f32 from string following the flag.  If flag
 ``` go
 func (u Usage) OptL() (r []string)
 ```
-Method OptL returns a slice of strings filled with commandline arguments after the last option, or arguments after the options terminator '--', if given; or all arguments if no dash-letter was spotted.
+Method OptL returns a slice of strings filled with commandline arguments after the last option, or arguments after the options terminator '--', if given. Or all arguments if no dash-letter was spotted.
 
 ### <a name="Usage.OptN">func</a> (Usage) [OptN](/src/target/mopt.go?s=2758:2804#L68)
 ``` go
@@ -83,7 +84,7 @@ Method OptN returns an int. If flag was not given, or string that followed could
 ``` go
 func (u Usage) OptS(flag rune, def string) string
 ```
-Method OptS returns following string. If flag was not given, OptS returns the def value. If string after option needs to begin with dash character, it must be escaped: eg. `-s"\-begins with a dash"`.
+Method OptS returns following string. If flag was not given, OptS returns the def value. If string after option needs to begin with a dash character, leading dash must be escaped: eg. `-s"\-begins with a dash"`.
 
 ### NLS variable
 ``` go
@@ -95,7 +96,7 @@ Allows `-h` to say "propósito, uso y opciones:", or "目的、使用法、オ�
 ``` go
 var Exit func(int) = os.Exit
 ```
-os.Exit(0) can be hijacked by assigning here other function.
+os.Exit(0) called by -h support can be hijacked here.
 
 ----
 
