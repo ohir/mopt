@@ -55,8 +55,8 @@ func TestString(t *testing.T) {
 		t.Logf("OptS default subst errs: expected >-dashed<, got >%s<", s)
 		t.Fail()
 	}
-	if s := get.OptS('d', "ups!"); s != "" {
-		t.Logf("OptS value with unescaped dash should return empty, but gave >%s<", s)
+	if s := get.OptS('d', "ups!"); s != "ups!" {
+		t.Logf("OptS value with unescaped dash should return default, but gave >%s<", s)
 		t.Fail()
 	}
 	if s := get.OptS('e', "ups!"); s != "-dashed" {

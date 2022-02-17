@@ -50,11 +50,13 @@ type Usage string
 func (u Usage) OptS(flag rune, def string) string {
 	if s, ok := u.optss(flag); ok {
 		switch {
+		case len(s) == 0:
+			return def
+		case s[0] == '-': // next option, allow string to be optional
+			return def
 		case len(s) < 2:
 		case s[0] == '\\' && s[1] == '-':
 			return s[1:]
-		case s[0] == '-':
-			return ""
 		}
 		return s
 	}

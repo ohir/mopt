@@ -4,15 +4,21 @@
 
 Package mopt provides command arguments parsing in 90 lines of Go.
 
-It is ready to use right after declaring a single `mopt.Usage` type variable, optionally containing _usage_ text to be printed with an '-h' flag.
+It is ready to use right after declaring a single `mopt.Usage` type variable optionally containing _usage_ text to be printed with an '-h' flag. For just a single option a single line with Usage literal is all you need:
+``` go
+niter := mopt.Usage("-n iterations, default: 9").OptN('n', 9)
+```
+For more options declare Usage string variable, eg:
+``` go
+var cl mopt.Usage = "\t-n iterations\n\t-v verbose\n ..."
+```
 
-Eg. declare "get" as `var get mopt.Usage = "\t-v verbose\n ..."` then use its five
-<a name="pkg-api">methods:</a>
-- `get.OptB('x') bool` tells if '-x' flag is present. Its ok to ask for any type flag presence.
-- `get.OptN('x', def·int) int` returns '-x ±digits' as an int, or the default int.
-- `get.OptF('x', def·float) float64` returns '-x ±digits' as a float64, or the default float.
-- `get.OptS('x', "default string") string` returns text of '-x text', or the default string.
-- `get.OptL() []string` returns slice of arguments following the last option or terminating '--'.
+then you may use its five option read <a name="pkg-api">methods:</a>
+- `cl.OptB('x') bool` tells if '-x' flag is present. Its ok to ask for any type flag presence.
+- `cl.OptN('x', def·int) int` returns '-x ±digits' as an int, or the default int.
+- `cl.OptF('x', def·float) float64` returns '-x ±digits' as a float64, or the default float.
+- `cl.OptS('x', "default string") string` returns text of '-x text', or the default string.
+- `cl.OptL() []string` returns slice of arguments following the last option or terminating '--'.
 
 Spaces between flag letter and value are unimportant: ie. `-a bc`, and `-abc` are equivalent.  Same for numbers: `-n-3` and `-n -3` both provide _-3_ number. _For this elasticity a leading dash of string value, if needed, must be given after a backslash: eg. `-s\-dashed` or `-s "\- started with a dash"`. Flag grouping is not supported, too. Ie. `-a -b -c` are three boolean flags, but `-abc` would be an `-a` flag introducing a string value of "bc"_.
 
@@ -20,9 +26,9 @@ Flag `-h` is predefined to print a short "__ProgName__ _purpose, usage & options
 
 Automatic help behaviour can be extended simply by asking about a help topic early on: eg.
 ``` go
-var get mopt.Usage = "\t-v verbose\n ..."
+var cl mopt.Usage = "\t-v verbose\n ..."
 func main(){
-  if htopic := get.OptS('h',"-"); htopic != "-" {
+  if htopic := cl.OptS('h',"-"); htopic != "-" {
     switch htopic {
       case "": // bare -h
       case "flip": // -h flip
@@ -36,7 +42,7 @@ func main(){
 }
 ```
 ----
-Mopt package is meant to be used in the PoC code and ad-hoc cli tools. It parses os.Args anew on every OptX call. There is no user feedback of _"unknown/wrong option"_, nor developer is guarded against opt-letter reuse. _Caveat emptor!_
+Mopt package is meant to be used in the PoC code and ad-hoc cli tools. It parses two leading bytes of each os.Args entry anew on every OptX call. Also, there is no user feedback of _"unknown/wrong option"_, nor developer is guarded against opt-letter reuse. _Caveat emptor!_
 
 ## <a name="pkg-index">Usage</a>
 * [type Usage](#Usage)
