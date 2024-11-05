@@ -47,10 +47,10 @@ Mopt package is meant to be used in the PoC code and ad-hoc cli tools. It parses
 
 ## <a name="pkg-index">Usage</a>
 * [type Usage](#Usage)
+  * [func (u Usage) OptB(flag rune) bool](#Usage.OptB)
   * [func (u Usage) OptS(flag rune, def string) string](#Usage.OptS)
   * [func (u Usage) OptN(flag rune, def int) int](#Usage.OptN)
   * [func (u Usage) OptF(flag rune, def float64) float64](#Usage.OptF)
-  * [func (u Usage) OptB(flag rune) bool](#Usage.OptB)
   * [func (u Usage) OptCSF(flag rune, current uint32, all string) (r uint32)](#Usage.OptCSF)
   * [func (u Usage) OptL() (r []string)](#Usage.OptL)
 
@@ -60,6 +60,12 @@ Mopt package is meant to be used in the PoC code and ad-hoc cli tools. It parses
 type Usage string
 ```
 Usage type string provides help message to be printed if program user will pass the '-h' flag. Mopt package whole api is hooked on an Usage type variable.
+
+### <a name="Usage.OptB">func</a> (Usage) [OptB](/mopt.go?s=#L103)
+``` go
+func (u Usage) OptB(flag rune) (r bool)
+```
+Method OptB returns true if flag was given, otherwise it returns false.   It need not to take a default: flag either is present, or not.
 
 ### <a name="Usage.OptS">func</a> (Usage) [OptS](/mopt.go?s=#L55)
 ``` go
@@ -78,13 +84,6 @@ Method OptN returns an int. If flag was not given, or string that followed could
 func (u Usage) OptF(flag rune, def float64) (r float64)
 ```
 Method OptF returns float64 read as f32 from string following the flag.  If flag was not given, or it could not be parsed to the float, OptF returns the def value.
-
-### <a name="Usage.OptB">func</a> (Usage) [OptB](/mopt.go?s=#L103)
-``` go
-func (u Usage) OptB(flag rune) (r bool)
-```
-Method OptB returns true if flag was given, otherwise it returns false.
- It need not to take a default: flag either is present, or not.
 
 ### <a name="Usage.OptCSF">func</a> (Usage) [OptCSF](/mopt.go?s=#L115)
 ``` go
