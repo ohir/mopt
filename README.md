@@ -93,7 +93,7 @@ func (u Usage) OptS(flag rune, def string) string
 ```
 Method OptS returns following string. If flag was not given, OptS returns the def value. If string after option needs to begin with a dash character, leading dash must be escaped: eg. `-s"\-begins with a dash"`.
 
-### <a name="Usage.OptCSF">func</a> (Usage) [OptS](/mopt.go?s=#L115)
+### <a name="Usage.OptCSF">func</a> (Usage) [OptCSF](/mopt.go?s=#L115)
 ``` go
 func (u Usage) OptCSF(flag rune, current uint32, all string) (r uint32)
 ```
