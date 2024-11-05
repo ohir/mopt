@@ -176,3 +176,18 @@ func TestTerminator(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestCSF(t *testing.T) {
+	os.Args = []string{"test", "-Fbn1,bn2,no-bn3,no-bn0,bn7"}
+	var curf, retf uint32
+	curf = 0x19
+	if !get.OptB('F') {
+		t.Logf("Flag -F not found at all! Bad!")
+		t.Fail()
+	}
+	retf = get.OptCSF('F', curf, "bn0,bn1,bn2,bn3,bn4,bn5,bn6,bn7")
+	if retf != 0x96 {
+		t.Logf("Bad flag result! exp:%08b got:%08b from:%08b", 0x6, retf, curf)
+		t.Fail()
+	}
+}

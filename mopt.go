@@ -1,6 +1,7 @@
-// (c) 2015-2021 Ohir Ripe. MIT license.
+// (c) 2015-2024 Ohir Ripe. MIT license.
 
-/* Package mopt provides getopt style options parsing in 90 lines of Go.
+/*
+	Package mopt provides getopt style options parsing.
 
 Its API consist of five OptX methods, with 'X' being of 'B'ool, 'S'tring,
 'F'loat, 'N'umber (int), and finally 'L'ist - that returns list (slice) of
@@ -28,9 +29,12 @@ package mopt
 import (
 	"os"
 	"strconv"
+	"strings"
 )
 
-/* Usage is the API holder type - to be filled with the message to be
+/*
+	Usage is the API holder type - to be filled with the message to be
+
 printed as "help/usage" after the "prog - purpose, usage & options:\n"
 predefined lead, if user gave the '-h' option.  After printing Usage
 content program terminates returning zero.
@@ -41,7 +45,8 @@ stepping into the default `print Usage then Exit` path. If first call to the
 Usage methods will be for the 'h', eg. `subhelp := cl.OptS("h","-")`, returned
 "subhelp" string (!= "-") will tell that -h option is present, amd that user
 possibly wants more help on topic. After servicing user needs, program should
-terminate.*/
+terminate.
+*/
 type Usage string
 
 // Method OptS returns string that followed the flag. If flag was not given,
@@ -94,9 +99,40 @@ func (u Usage) OptF(flag rune, def float64) (r float64) {
 }
 
 // Method OptB returns true if flag was given, otherwise it returns false.
-// It need not to take a default: flag either is present, or not.
+//  It need not to take a default: flag either is present, or not.
 func (u Usage) OptB(flag rune) (r bool) {
 	_, r = u.optss(flag)
+	return
+}
+
+// Method OptCSF returns bitflags given as a comma separated string past the
+// flag.  It returns the copy of _current_ parameter with bit set or zeroed
+// at position where the bit-name is present in the _all_ parameter.
+//   - Returned value bit is set only if a "bitname" entry was given.
+//   - Returned value bit is zeroed only if a "no-bitname" entry was given.
+//
+// Ex: -Fflag1,no-flag3
+func (u Usage) OptCSF(flag rune, current uint32, all string) (r uint32) {
+	fs, no := u.optss(flag)
+	if r = current; !no {
+		return
+	}
+	allf := strings.Split(all, ",")
+	for _, fl := range strings.Split(fs, ",") {
+		sb, sm := uint32(1), ^uint32(1)
+		if no = len(fl) > 2 && fl[:3] == "no-"; no {
+			fl = fl[3:]
+		}
+		for _, tf := range allf {
+			if fl == tf && no {
+				r &= sm
+			} else if fl == tf {
+				r |= sb
+			}
+			sb <<= 1
+			sm = ^sb
+		}
+	}
 	return
 }
 
